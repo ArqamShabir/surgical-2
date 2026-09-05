@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+  --color-primary-teal: #218596;
+  --color-primary-teal-hover: #1b7180;
+  --color-teal-dark: #174c57;
+  --color-teal-deep: #133f48;
+  --color-teal-light: #2bb5cb;
+  --color-teal-subtle: #eef8fa;
+  --color-slate-top: #1e2428;
+  --color-slate-charcoal: #23282b;
+  --color-navy-dark: #1c2b33;
+}
+
+@layer base {
+  body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f7fafb;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+  }
+}
+
+/* Custom scrollbar matching teal palette */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #edf3f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #9cc1c9;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #218596;
+}
+
+/* Crisp image rendering */
+img {
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Seamless Google Translate styling */
+#google_translate_element,
+.goog-te-gadget,
+.goog-te-banner-frame.skiptranslate,
+.skiptranslate > iframe {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
