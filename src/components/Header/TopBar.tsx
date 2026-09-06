@@ -30,7 +30,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="bg-[#1a2024] text-gray-300 py-1.5 px-4 font-montserrat text-[11px] border-b border-gray-800 shadow-xs relative z-50">
+    <div className="hidden md:block bg-[#1a2024] text-gray-300 py-1.5 px-4 font-montserrat text-[11px] border-b border-gray-800 shadow-xs relative z-50">
       <div className="max-w-[1280px] mx-auto flex flex-wrap items-center justify-between gap-3">
         {/* Left Navigation Links & Selectors */}
         <div className="flex items-center space-x-3 sm:space-x-4 flex-wrap">
