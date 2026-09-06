@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import { Star, ShoppingCart, Eye, Check, ArrowRight, Zap } from "lucide-react";
-import { FEATURED_PRODUCTS, fixAssetUrl, type Product } from "../../data/mockData";
+import { Star, Eye, ArrowRight, MessageCircle } from "lucide-react";
+import {
+  FEATURED_PRODUCTS,
+  fixAssetUrl,
+  getWhatsAppProductUrl,
+  type Product,
+} from "../../data/mockData";
 import { useCurrency } from "../../context/CurrencyContext";
 
 interface FeaturedProductsProps {
-  onAddToCart: (product: Product, quantity: number) => void;
   onQuickView: (product: Product) => void;
   onOpenQuestion?: (product: Product) => void;
   onSelectProduct: (product: Product) => void;
@@ -12,32 +16,14 @@ interface FeaturedProductsProps {
 }
 
 export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
-  onAddToCart,
   onQuickView,
   onSelectProduct,
   onNavigateCollection,
 }) => {
   const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState<"featured" | "latest" | "bestsellers" | "specials">("featured");
-  const [quantities, setQuantities] = useState<Record<string, number>>({});
-  const [addedNotice, setAddedNotice] = useState<string | null>(null);
 
   const products = FEATURED_PRODUCTS[activeTab] || [];
-
-  const handleQtyChange = (productId: string, delta: number) => {
-    setQuantities((prev) => {
-      const current = prev[productId] || 1;
-      const next = Math.max(1, current + delta);
-      return { ...prev, [productId]: next };
-    });
-  };
-
-  const handleAddCart = (product: Product) => {
-    const qty = quantities[product.id] || 1;
-    onAddToCart(product, qty);
-    setAddedNotice(product.id);
-    setTimeout(() => setAddedNotice(null), 2000);
-  };
 
   const tabLabels = {
     featured: "FEATURED",
@@ -83,16 +69,13 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-200"
         >
           {products.map((product) => {
-            const qty = quantities[product.id] || 1;
-            const isAdded = addedNotice === product.id;
-
             return (
               <div
                 key={`${activeTab}-${product.id}`}
                 className="bg-white border border-gray-200/80 rounded-xl overflow-hidden group hover:shadow-xl hover:border-[#218596]/40 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
-                  {/* Full-width Image Container (without weird clipping / excessive zoom) */}
+                  {/* Full-width Image Container */}
                   <div
                     className="relative w-full h-56 sm:h-60 bg-white flex items-center justify-center p-3 overflow-hidden cursor-pointer border-b border-gray-100"
                     onClick={() => onSelectProduct(product)}
@@ -189,64 +172,21 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                   </div>
                 </div>
 
-                {/* Bottom Actions: Stepper + Add to Cart + Attractive Buy Now Button */}
-                <div className="p-3.5 bg-gray-50/80 border-t border-gray-100 space-y-2">
-                  <div className="flex items-center gap-2">
-                    {/* Stepper */}
-                    <div className="flex items-center border border-gray-300 rounded-lg bg-white overflow-hidden h-9">
-                      <button
-                        type="button"
-                        onClick={() => handleQtyChange(product.id, -1)}
-                        className="px-2.5 text-gray-500 hover:bg-gray-100 h-full flex items-center justify-center text-xs cursor-pointer font-bold transition-colors"
-                      >
-                        -
-                      </button>
-                      <span className="w-6 text-center text-xs font-semibold text-gray-800">
-                        {qty}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => handleQtyChange(product.id, 1)}
-                        className="px-2.5 text-gray-500 hover:bg-gray-100 h-full flex items-center justify-center text-xs cursor-pointer font-bold transition-colors"
-                      >
-                        +
-                      </button>
-                    </div>
-
-                    {/* Add to Cart Button */}
-                    <button
-                      onClick={() => handleAddCart(product)}
-                      className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-montserrat font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                        isAdded
-                          ? "bg-emerald-600 text-white shadow-sm"
-                          : "bg-white border border-[#218596] text-[#218596] hover:bg-teal-50 shadow-2xs"
-                      }`}
-                    >
-                      {isAdded ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" />
-                          <span>Added</span>
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingCart className="w-3.5 h-3.5 text-[#218596]" />
-                          <span>Add to Cart</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  {/* Attractive, Prominent BUY NOW Button */}
-                  <button
-                    onClick={() => {
-                      handleAddCart(product);
-                      onSelectProduct(product);
-                    }}
-                    className="w-full bg-gradient-to-r from-[#218596] to-[#174c57] hover:from-[#1b7180] hover:to-[#133f48] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.2"
+                {/* Bottom Actions: Luxury WhatsApp Direct Order */}
+                <div className="p-3 bg-gray-50/80 border-t border-gray-100">
+                  <a
+                    href={getWhatsAppProductUrl(
+                      product,
+                      undefined,
+                      formatPrice(product.price)
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-3 rounded-lg transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.2"
                   >
-                    <Zap className="w-3.5 h-3.5 text-teal-200 fill-teal-200" />
-                    <span>Buy Now</span>
-                  </button>
+                    <MessageCircle className="w-4 h-4 fill-white" />
+                    <span>Order on WhatsApp</span>
+                  </a>
                 </div>
               </div>
             );

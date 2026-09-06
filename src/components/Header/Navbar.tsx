@@ -353,10 +353,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
           </button>
         </div>
 
-        {/* Right WhatsApp & Phone Contact matching media 3 screenshot */}
+        {/* Right WhatsApp & Phone Contact */}
         <div className="flex items-stretch text-white text-xs font-montserrat font-bold tracking-wider shrink-0">
           <a
-            href="https://wa.me/923167134152"
+            href="https://wa.me/923494846107"
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2.5 hover:text-teal-100 transition-colors cursor-pointer"
@@ -372,7 +372,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
             >
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
-            <span className="tracking-tight text-white font-semibold text-[11px] sm:text-xs whitespace-nowrap">+92 3167134152</span>
+            <span className="tracking-tight text-white font-semibold text-[11px] sm:text-xs whitespace-nowrap">+92 3494846107</span>
           </a>
 
           {/* Non-link arrow indicator badge pointing to WhatsApp number */}

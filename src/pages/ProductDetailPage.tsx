@@ -1,8 +1,6 @@
 import React, { useState, useRef, type MouseEvent } from "react";
 import {
   Home,
-  ShoppingCart,
-  Zap,
   ChevronDown,
   ChevronUp,
   ZoomIn,
@@ -12,13 +10,20 @@ import {
   ShieldCheck,
   Truck,
   RotateCcw,
+  MessageCircle,
+  FileText,
 } from "lucide-react";
-import { ALL_PRODUCTS, fixAssetUrl, type Product } from "../data/mockData";
+import {
+  ALL_PRODUCTS,
+  fixAssetUrl,
+  getWhatsAppProductUrl,
+  WHATSAPP_PHONE,
+  type Product,
+} from "../data/mockData";
 import { useCurrency } from "../context/CurrencyContext";
 
 interface ProductDetailPageProps {
   product: Product | null;
-  onAddToCart: (product: Product, quantity: number) => void;
   onOpenQuestion?: (product: Product) => void;
   onSelectProduct: (product: Product) => void;
   onNavigateHome: () => void;
@@ -27,7 +32,6 @@ interface ProductDetailPageProps {
 
 export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   product,
-  onAddToCart,
   onSelectProduct,
   onNavigateHome,
   onNavigateCollection,
@@ -35,7 +39,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   const { formatPrice, currency } = useCurrency();
   const currentProduct = product || ALL_PRODUCTS[0];
 
-  const [qty, setQty] = useState(1);
   const [selectedImage, setSelectedImage] = useState(currentProduct.image);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(() => {
     const initial: Record<string, string> = {};
@@ -68,10 +71,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
   const handleOptionSelect = (optionName: string, value: string) => {
     setSelectedOptions((prev) => ({ ...prev, [optionName]: value }));
-  };
-
-  const handleAddCart = () => {
-    onAddToCart(currentProduct, qty);
   };
 
   const imagesList = currentProduct.images && currentProduct.images.length > 0
@@ -304,48 +303,36 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 )}
               </div>
 
-              {/* Action Buttons: Stepper + Add To Cart + Attractive Buy Now Button */}
+              {/* Action Buttons: Luxury WhatsApp Direct Ordering & Catalog Inquiries */}
               <div className="space-y-4 pt-6 border-t border-gray-200">
                 <div className="flex flex-col sm:flex-row items-stretch gap-3">
-                  {/* Stepper with Up/Down buttons */}
-                  <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden h-12 bg-white shrink-0 justify-between px-2">
-                    <button
-                      onClick={() => setQty((q) => Math.max(1, q - 1))}
-                      className="px-3 hover:bg-gray-100 h-full flex items-center justify-center cursor-pointer text-gray-600 font-bold text-sm"
-                    >
-                      -
-                    </button>
-                    <input
-                      type="text"
-                      readOnly
-                      value={qty}
-                      className="w-10 text-center text-sm font-bold text-gray-900 focus:outline-none font-montserrat"
-                    />
-                    <button
-                      onClick={() => setQty((q) => q + 1)}
-                      className="px-3 hover:bg-gray-100 h-full flex items-center justify-center cursor-pointer text-gray-600 font-bold text-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-
-                  {/* Add to Cart Button */}
-                  <button
-                    onClick={handleAddCart}
-                    className="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-teal-50 text-[#218596] border-2 border-[#218596] h-12 px-5 rounded-xl font-montserrat font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-xs"
+                  {/* Primary Luxury Button: Order via WhatsApp */}
+                  <a
+                    href={getWhatsAppProductUrl(
+                      currentProduct,
+                      selectedOptions,
+                      formatPrice(currentProduct.price)
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20ba5a] text-white h-13 px-6 rounded-xl font-montserrat font-bold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shadow-md hover:shadow-xl transform hover:-translate-y-0.5"
                   >
-                    <ShoppingCart className="w-4 h-4 text-[#218596]" />
-                    <span>ADD TO CART</span>
-                  </button>
+                    <MessageCircle className="w-5 h-5 fill-white shrink-0" />
+                    <span>ORDER VIA WHATSAPP</span>
+                  </a>
 
-                  {/* Attractive, Modern Buy Now Button */}
-                  <button
-                    onClick={handleAddCart}
-                    className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-[#218596] to-[#174c57] hover:from-[#1b7180] hover:to-[#133f48] text-white h-12 px-6 rounded-xl font-montserrat font-black text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md hover:shadow-xl transform hover:-translate-y-0.5"
+                  {/* Secondary Inquire / Specs Button */}
+                  <a
+                    href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
+                      `Hello Coin Surgical, I would like technical specifications and bulk pricing for: ${currentProduct.name} (Model: ${currentProduct.model})`
+                    )}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-center gap-2 bg-white hover:bg-teal-50 text-[#174c57] border-2 border-[#174c57] h-13 px-5 rounded-xl font-montserrat font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-2xs"
                   >
-                    <Zap className="w-4 h-4 text-teal-200 fill-teal-200" />
-                    <span>BUY NOW</span>
-                  </button>
+                    <FileText className="w-4 h-4 text-[#174c57]" />
+                    <span>Inquire Custom Specs</span>
+                  </a>
                 </div>
 
                 {/* Value Guarantee Badges */}
@@ -360,7 +347,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   </div>
                   <div className="flex items-center gap-2">
                     <RotateCcw className="w-4 h-4 text-[#218596] shrink-0" />
-                    <span>Personalized Support</span>
+                    <span>Personalized Direct Support</span>
                   </div>
                 </div>
               </div>
@@ -429,14 +416,16 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   </div>
 
                   <div className="flex items-center gap-2 mt-1.5">
-                    <button
-                      onClick={() => onAddToCart(p, 1)}
-                      className="flex items-center gap-1 text-[10px] uppercase font-bold text-[#174c57] hover:text-[#218596] transition-colors cursor-pointer"
-                      title="Add to Cart"
+                    <a
+                      href={getWhatsAppProductUrl(p, undefined, formatPrice(p.price))}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-1 text-[10px] uppercase font-bold text-[#25D366] hover:text-[#20ba5a] transition-colors cursor-pointer"
+                      title="Order on WhatsApp"
                     >
-                      <ShoppingCart className="w-3 h-3" />
-                      <span>Add</span>
-                    </button>
+                      <MessageCircle className="w-3 h-3 fill-current" />
+                      <span>WhatsApp</span>
+                    </a>
                   </div>
                 </div>
               </div>

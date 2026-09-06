@@ -1,39 +1,26 @@
-import React, { useState } from "react";
-import { X, ShoppingCart, Check, Zap } from "lucide-react";
-import { fixAssetUrl, type Product } from "../../data/mockData";
+import React from "react";
+import { X, MessageCircle, ArrowRight } from "lucide-react";
+import {
+  fixAssetUrl,
+  getWhatsAppProductUrl,
+  type Product,
+} from "../../data/mockData";
 import { useCurrency } from "../../context/CurrencyContext";
 
 interface QuickViewModalProps {
   product: Product | null;
   onClose: () => void;
-  onAddToCart: (product: Product, quantity: number) => void;
+  onSelectProduct?: (product: Product) => void;
 }
 
 export const QuickViewModal: React.FC<QuickViewModalProps> = ({
   product,
   onClose,
-  onAddToCart,
+  onSelectProduct,
 }) => {
   const { formatPrice } = useCurrency();
-  const [qty, setQty] = useState(1);
-  const [added, setAdded] = useState(false);
 
   if (!product) return null;
-
-  const handleAdd = () => {
-    onAddToCart(product, qty);
-    setAdded(true);
-    setTimeout(() => {
-      setAdded(false);
-      onClose();
-    }, 1200);
-  };
-
-  const handleBuyNow = () => {
-    onAddToCart(product, qty);
-    onClose();
-    window.location.href = `/product/${product.id}`;
-  };
 
   return (
     <div
@@ -85,56 +72,31 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               </p>
             </div>
 
-            <div className="space-y-3 pt-3 sm:pt-4 border-t border-gray-100">
-              <div className="flex items-center gap-2">
-                {/* Stepper */}
-                <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden h-10 bg-white">
-                  <button
-                    onClick={() => setQty((q) => Math.max(1, q - 1))}
-                    className="px-3 text-gray-600 hover:bg-gray-100 h-full flex items-center justify-center font-bold cursor-pointer"
-                  >
-                    -
-                  </button>
-                  <span className="w-8 text-center text-sm font-semibold">{qty}</span>
-                  <button
-                    onClick={() => setQty((q) => q + 1)}
-                    className="px-3 text-gray-600 hover:bg-gray-100 h-full flex items-center justify-center font-bold cursor-pointer"
-                  >
-                    +
-                  </button>
-                </div>
-
-                {/* Add to Cart */}
-                <button
-                  onClick={handleAdd}
-                  className={`flex-1 flex items-center justify-center gap-2 h-10 px-4 rounded-lg font-montserrat font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer ${
-                    added
-                      ? "bg-emerald-600 text-white"
-                      : "bg-white border-2 border-[#218596] text-[#218596] hover:bg-teal-50"
-                  }`}
-                >
-                  {added ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>Added</span>
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingCart className="w-4 h-4 text-[#218596]" />
-                      <span>Add to Cart</span>
-                    </>
-                  )}
-                </button>
-              </div>
-
-              {/* Attractive Buy Now Button */}
-              <button
-                onClick={handleBuyNow}
-                className="w-full bg-gradient-to-r from-[#218596] to-[#174c57] hover:from-[#1b7180] hover:to-[#133f48] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-4 rounded-lg transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            <div className="space-y-2.5 pt-3 sm:pt-4 border-t border-gray-100">
+              {/* Order via WhatsApp Direct Button */}
+              <a
+                href={getWhatsAppProductUrl(product, undefined, formatPrice(product.price))}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:scale-102"
               >
-                <Zap className="w-3.5 h-3.5 text-teal-200 fill-teal-200" />
-                <span>Buy Now</span>
-              </button>
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>Order via WhatsApp</span>
+              </a>
+
+              {/* View Full Product Details */}
+              {onSelectProduct && (
+                <button
+                  onClick={() => {
+                    onClose();
+                    onSelectProduct(product);
+                  }}
+                  className="w-full bg-gray-50 hover:bg-teal-50 text-[#174c57] hover:text-[#218596] border border-gray-200 hover:border-[#218596] font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <span>View Full Product Details</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
           </div>
         </div>

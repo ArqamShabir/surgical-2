@@ -9,14 +9,12 @@ import { TestimonialsSection } from "../components/Testimonials/TestimonialsSect
 import type { Product } from "../data/mockData";
 
 interface HomePageProps {
-  onAddToCart: (product: Product, quantity: number) => void;
   onQuickView: (product: Product) => void;
   onSelectProduct: (product: Product) => void;
   onNavigateCollection: () => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
-  onAddToCart,
   onQuickView,
   onSelectProduct,
   onNavigateCollection,
@@ -34,7 +32,6 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* 4. Featured Products Tabs Section */}
       <FeaturedProducts
-        onAddToCart={onAddToCart}
         onQuickView={onQuickView}
         onSelectProduct={onSelectProduct}
         onNavigateCollection={onNavigateCollection}

@@ -4,11 +4,9 @@ import { Footer } from "./components/Footer/Footer";
 import { HomePage } from "./pages/HomePage";
 import { CollectionPage } from "./pages/CollectionPage";
 import { ProductDetailPage } from "./pages/ProductDetailPage";
-import { CheckoutPage } from "./pages/CheckoutPage";
 import { InfoPage, type InfoPageType } from "./pages/InfoPage";
 import { PdfCataloguesPage } from "./pages/PdfCataloguesPage";
 import { QuickViewModal } from "./components/Modals/QuickViewModal";
-import { CartDrawer, type CartItem } from "./components/Modals/CartDrawer";
 import { WhatsAppChatbot } from "./components/Chatbot/WhatsAppChatbot";
 import { ALL_PRODUCTS, type Product } from "./data/mockData";
 import { CurrencyProvider } from "./context/CurrencyContext";
@@ -58,8 +56,6 @@ export const App: React.FC = () => {
     return "Plastic Surgery";
   });
 
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   // Sync state with browser address bar
@@ -121,38 +117,6 @@ export const App: React.FC = () => {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
-  // Cart Handlers
-  const handleAddToCart = (product: Product, quantity: number = 1) => {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prev, { product, quantity }];
-    });
-    setIsCartOpen(true);
-  };
-
-  const handleUpdateQty = (productId: string, quantity: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
-    );
-  };
-
-  const handleRemoveFromCart = (productId: string) => {
-    setCart((prev) => prev.filter((item) => item.product.id !== productId));
-  };
-
-  const handleClearCart = () => {
-    setCart([]);
-  };
-
   // Navigation Handlers
   const handleNavigate = (page: string, category?: string, search?: string) => {
     if (page === "collection" || page === "collections" || page === "search") {
@@ -170,7 +134,7 @@ export const App: React.FC = () => {
         navigateTo("/collections");
       }
     } else if (page === "checkout") {
-      navigateTo("/checkout");
+      navigateTo("/collections");
     } else if (page === "product" && selectedProduct) {
       navigateTo(`/product/${selectedProduct.id}`);
     } else if (page === "pdf-catalogues" || page === "/pdf-catalogues") {
@@ -197,13 +161,9 @@ export const App: React.FC = () => {
     navigateTo(`/product/${product.id}`);
   };
 
-  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const cartTotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-
   // Determine current page view from URL path
   const isProductPage = currentPath.startsWith("/product/");
   const isCollectionPage = currentPath.startsWith("/collections") || currentPath === "/collection";
-  const isCheckoutPage = currentPath === "/checkout";
   const isPdfCataloguesPage = currentPath === "/pdf-catalogues";
 
   const infoPageMap: Record<string, InfoPageType> = {
@@ -223,7 +183,6 @@ export const App: React.FC = () => {
   const isHomePage =
     !isProductPage &&
     !isCollectionPage &&
-    !isCheckoutPage &&
     !isPdfCataloguesPage &&
     !isInfoPage;
 
@@ -231,18 +190,12 @@ export const App: React.FC = () => {
     <CurrencyProvider>
       <div className="min-h-screen flex flex-col bg-[#f7fafb]">
         {/* Header */}
-        <Header
-          cartCount={cartCount}
-          cartTotal={cartTotal}
-          onOpenCart={() => setIsCartOpen(true)}
-          onNavigate={handleNavigate}
-        />
+        <Header onNavigate={handleNavigate} />
 
         {/* Main Routed Page Content */}
         <main className="flex-1">
           {isHomePage && (
             <HomePage
-              onAddToCart={handleAddToCart}
               onQuickView={(prod) => setQuickViewProduct(prod)}
               onSelectProduct={handleSelectProduct}
               onNavigateCollection={() => handleNavigate("collection", "Plastic Surgery")}
@@ -253,7 +206,6 @@ export const App: React.FC = () => {
             <CollectionPage
               categoryName={currentCategory}
               searchQuery={searchQuery}
-              onAddToCart={handleAddToCart}
               onQuickView={(prod) => setQuickViewProduct(prod)}
               onSelectProduct={handleSelectProduct}
               onNavigateHome={() => navigateTo("/")}
@@ -264,7 +216,6 @@ export const App: React.FC = () => {
           {isProductPage && (
             <ProductDetailPage
               product={selectedProduct}
-              onAddToCart={handleAddToCart}
               onSelectProduct={handleSelectProduct}
               onNavigateHome={() => navigateTo("/")}
               onNavigateCollection={() => handleNavigate("collection", selectedProduct?.category || "Plastic Surgery")}
@@ -282,16 +233,6 @@ export const App: React.FC = () => {
               onNavigatePage={(slug) => handleNavigate(slug)}
             />
           )}
-
-          {isCheckoutPage && (
-            <CheckoutPage
-              items={cart}
-              onUpdateQty={handleUpdateQty}
-              onRemoveItem={handleRemoveFromCart}
-              onNavigateHome={() => navigateTo("/")}
-              onClearCart={handleClearCart}
-            />
-          )}
         </main>
 
         {/* Footer */}
@@ -300,20 +241,11 @@ export const App: React.FC = () => {
         {/* WhatsApp Chatbot Widget */}
         <WhatsAppChatbot />
 
-        {/* Modals & Cart Drawer */}
+        {/* Quick View Modal */}
         <QuickViewModal
           product={quickViewProduct}
           onClose={() => setQuickViewProduct(null)}
-          onAddToCart={handleAddToCart}
-        />
-
-        <CartDrawer
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          items={cart}
-          onUpdateQty={handleUpdateQty}
-          onRemoveItem={handleRemoveFromCart}
-          onProceedCheckout={() => handleNavigate("checkout")}
+          onSelectProduct={handleSelectProduct}
         />
       </div>
     </CurrencyProvider>

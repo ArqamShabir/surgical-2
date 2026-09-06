@@ -1,31 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { TopBar } from "./TopBar";
 import { MidBar } from "./MidBar";
 import { Navbar } from "./Navbar";
+import { MobileDrawer } from "./MobileDrawer";
 
 interface HeaderProps {
-  cartCount: number;
-  cartTotal: number;
-  onOpenCart: () => void;
   onNavigate: (page: string, category?: string, search?: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  cartCount,
-  cartTotal,
-  onOpenCart,
-  onNavigate,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   return (
-    <header className="sticky top-0 z-40 shadow-sm bg-white">
+    <header className="sticky top-0 z-40 shadow-xs bg-white">
       <TopBar onNavigate={onNavigate} />
       <MidBar
-        cartCount={cartCount}
-        cartTotal={cartTotal}
-        onOpenCart={onOpenCart}
         onNavigate={onNavigate}
+        onOpenDrawer={() => setIsDrawerOpen(true)}
       />
       <Navbar onNavigate={onNavigate} />
+      <MobileDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        onNavigate={onNavigate}
+      />
     </header>
   );
 };

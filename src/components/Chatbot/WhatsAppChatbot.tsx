@@ -6,7 +6,7 @@ export const WhatsAppChatbot: React.FC = () => {
   const [message, setMessage] = useState("");
   const [hasOpened, setHasOpened] = useState(false);
 
-  const WHATSAPP_PHONE = "923167134152";
+  const WHATSAPP_PHONE = "923494846107";
 
   const handleOpen = () => {
     setIsOpen(!isOpen);
@@ -156,7 +156,7 @@ export const WhatsAppChatbot: React.FC = () => {
         {!isOpen && !hasOpened && (
           <div className="absolute right-16 bg-white text-gray-800 text-xs py-1.5 px-3 rounded-full shadow-lg border border-gray-100 whitespace-nowrap animate-bounce font-medium flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-[#25D366]" />
-            <span>Chat with us on WhatsApp</span>
+            <span>Chat with us</span>
           </div>
         )}
 

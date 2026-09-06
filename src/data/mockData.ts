@@ -306,6 +306,35 @@ export const CATEGORIES_DATA: Category[] = [
 
 export const TOP_CATEGORIES = CATEGORIES_DATA;
 
+export const WHATSAPP_PHONE = "923494846107";
+export const DISPLAY_PHONE = "+92 3494846107";
+
+export const getWhatsAppProductUrl = (
+  product: Product,
+  selectedOptions?: Record<string, string>,
+  formattedPrice?: string
+): string => {
+  const lines: string[] = [
+    `Hello Coin Surgical, I would like to inquire/order:`,
+    `*Product:* ${product.name}`,
+    `*Model:* ${product.model}`,
+  ];
+
+  if (formattedPrice) {
+    lines.push(`*Price:* ${formattedPrice}`);
+  }
+
+  if (selectedOptions && Object.keys(selectedOptions).length > 0) {
+    const opts = Object.entries(selectedOptions)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join(", ");
+    lines.push(`*Selected Variant:* ${opts}`);
+  }
+
+  const encoded = encodeURIComponent(lines.join("\n"));
+  return `https://wa.me/${WHATSAPP_PHONE}?text=${encoded}`;
+};
+
 export const FOOTER_DATA = {
   quickLinks: [
     { title: "About Us", link: "/about-us" },
@@ -317,14 +346,15 @@ export const FOOTER_DATA = {
     { title: "FAQ", link: "/faq" },
   ],
   contact: {
-    phone: "+92 3167134152",
+    phone: DISPLAY_PHONE,
+    whatsapp: WHATSAPP_PHONE,
     emails: ["coinsurgical@gmail.com"],
     address: "Sialkot, Punjab, Pakistan",
   },
   social: [
-    { name: "Facebook", href: "https://facebook.com" },
-    { name: "Instagram", href: "https://instagram.com" },
-    { name: "LinkedIn", href: "https://linkedin.com" },
+    { name: "Facebook", href: "https://www.facebook.com/coinsurgical" },
+    { name: "Instagram", href: "https://www.instagram.com/coinsurgical.shop/" },
+    { name: "LinkedIn", href: "https://www.linkedin.com/company/coinsurgical" },
   ],
   certifications: ["ISO 9001:2015", "CE Marked", "FDA Approved"],
   copyright: "© 2026 Coin Surgical. All Rights Reserved.",
