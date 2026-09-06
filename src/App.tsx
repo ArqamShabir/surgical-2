@@ -13,12 +13,29 @@ import { WhatsAppChatbot } from "./components/Chatbot/WhatsAppChatbot";
 import { ALL_PRODUCTS, type Product } from "./data/mockData";
 import { CurrencyProvider } from "./context/CurrencyContext";
 
+const rawBase = import.meta.env.BASE_URL || "/";
+const BASE_PATH = rawBase.endsWith("/") && rawBase.length > 1 ? rawBase.slice(0, -1) : (rawBase === "/" ? "" : rawBase);
+
+export const normalizePath = (fullPath: string): string => {
+  let path = fullPath;
+  if (BASE_PATH && path.startsWith(BASE_PATH)) {
+    path = path.slice(BASE_PATH.length);
+  }
+  if (!path || path === "" || path === "/") return "/";
+  return path;
+};
+
+export const formatPathWithBase = (path: string): string => {
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return `${BASE_PATH}${clean}`;
+};
+
 export const App: React.FC = () => {
-  const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname || "/");
+  const [currentPath, setCurrentPath] = useState<string>(() => normalizePath(window.location.pathname));
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(() => {
-    const path = window.location.pathname;
-    if (path.startsWith("/product/")) {
-      const slug = path.replace("/product/", "").toLowerCase();
+    const norm = normalizePath(window.location.pathname);
+    if (norm.startsWith("/product/")) {
+      const slug = norm.replace("/product/", "").toLowerCase();
       return ALL_PRODUCTS.find((p) => p.id.toLowerCase() === slug) || ALL_PRODUCTS[0];
     }
     return ALL_PRODUCTS[0];
@@ -30,12 +47,12 @@ export const App: React.FC = () => {
   });
 
   const [currentCategory, setCurrentCategory] = useState<string>(() => {
-    const path = window.location.pathname;
+    const norm = normalizePath(window.location.pathname);
     const params = new URLSearchParams(window.location.search);
     const queryCat = params.get("category");
     if (queryCat) return queryCat;
-    if (path.startsWith("/collections/")) {
-      const catSlug = decodeURIComponent(path.replace("/collections/", "")).replace(/-/g, " ");
+    if (norm.startsWith("/collections/")) {
+      const catSlug = decodeURIComponent(norm.replace("/collections/", "")).replace(/-/g, " ");
       return catSlug || "Plastic Surgery";
     }
     return "Plastic Surgery";
@@ -48,11 +65,12 @@ export const App: React.FC = () => {
   // Sync state with browser address bar
   const navigateTo = (url: string) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    const browserUrl = formatPathWithBase(url);
     const fullCurrent = window.location.pathname + window.location.search;
-    if (fullCurrent !== url) {
-      window.history.pushState({}, "", url);
+    if (fullCurrent !== browserUrl) {
+      window.history.pushState({}, "", browserUrl);
     }
-    const pathOnly = url.split("?")[0];
+    const pathOnly = normalizePath(url.split("?")[0]);
     setCurrentPath(pathOnly);
 
     const searchParams = new URLSearchParams(url.includes("?") ? url.split("?")[1] : "");
@@ -62,12 +80,12 @@ export const App: React.FC = () => {
     const queryCat = searchParams.get("category");
     if (queryCat) {
       setCurrentCategory(queryCat);
-    } else if (url.startsWith("/collections/")) {
+    } else if (pathOnly.startsWith("/collections/")) {
       const catSlug = decodeURIComponent(pathOnly.replace("/collections/", "")).replace(/-/g, " ");
       if (catSlug) setCurrentCategory(catSlug);
     }
 
-    if (url.startsWith("/product/")) {
+    if (pathOnly.startsWith("/product/")) {
       const slug = pathOnly.replace("/product/", "").toLowerCase();
       const found = ALL_PRODUCTS.find((p) => p.id.toLowerCase() === slug);
       if (found) setSelectedProduct(found);
@@ -77,8 +95,8 @@ export const App: React.FC = () => {
   // Listen for browser Back and Forward buttons
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname || "/";
-      setCurrentPath(path);
+      const norm = normalizePath(window.location.pathname);
+      setCurrentPath(norm);
 
       const params = new URLSearchParams(window.location.search);
       const searchQ = params.get("search") || "";
@@ -87,13 +105,13 @@ export const App: React.FC = () => {
       const queryCat = params.get("category");
       if (queryCat) {
         setCurrentCategory(queryCat);
-      } else if (path.startsWith("/collections/")) {
-        const catSlug = decodeURIComponent(path.replace("/collections/", "")).replace(/-/g, " ");
+      } else if (norm.startsWith("/collections/")) {
+        const catSlug = decodeURIComponent(norm.replace("/collections/", "")).replace(/-/g, " ");
         if (catSlug) setCurrentCategory(catSlug);
       }
 
-      if (path.startsWith("/product/")) {
-        const slug = path.replace("/product/", "").toLowerCase();
+      if (norm.startsWith("/product/")) {
+        const slug = norm.replace("/product/", "").toLowerCase();
         const found = ALL_PRODUCTS.find((p) => p.id.toLowerCase() === slug);
         if (found) setSelectedProduct(found);
       }
