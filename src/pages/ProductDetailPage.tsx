@@ -10,17 +10,14 @@ import {
   ShieldCheck,
   Truck,
   RotateCcw,
-  MessageCircle,
-  FileText,
+  Zap,
 } from "lucide-react";
 import {
   ALL_PRODUCTS,
   fixAssetUrl,
   getWhatsAppProductUrl,
-  WHATSAPP_PHONE,
   type Product,
 } from "../data/mockData";
-import { useCurrency } from "../context/CurrencyContext";
 
 interface ProductDetailPageProps {
   product: Product | null;
@@ -36,7 +33,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   onNavigateHome,
   onNavigateCollection,
 }) => {
-  const { formatPrice, currency } = useCurrency();
   const currentProduct = product || ALL_PRODUCTS[0];
 
   const [selectedImage, setSelectedImage] = useState(currentProduct.image);
@@ -217,27 +213,12 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 </h1>
 
                 {/* Model & Availability */}
-                <div className="flex items-center gap-4 text-xs mb-4 pb-3 border-b border-gray-100 font-mono">
+                <div className="flex items-center gap-4 text-xs mb-6 pb-3 border-b border-gray-100 font-mono">
                   <span className="text-gray-500">
                     Model: <strong className="text-[#218596]">{currentProduct.model}</strong>
                   </span>
                   <span className="text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                     In Stock • Certified Quality
-                  </span>
-                </div>
-
-                {/* Price Row */}
-                <div className="flex items-baseline gap-3 mb-6">
-                  <span className="text-3xl md:text-4xl font-black font-montserrat text-[#218596]">
-                    {formatPrice(currentProduct.price)}
-                  </span>
-                  {currentProduct.originalPrice && (
-                    <span className="text-base text-gray-400 line-through font-montserrat">
-                      {formatPrice(currentProduct.originalPrice)}
-                    </span>
-                  )}
-                  <span className="text-xs text-gray-500 font-medium">
-                    (Unit price in {currency.code})
                   </span>
                 </div>
 
@@ -303,35 +284,17 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 )}
               </div>
 
-              {/* Action Buttons: Luxury WhatsApp Direct Ordering & Catalog Inquiries */}
+              {/* Action Buttons: Single Previous BUY NOW Button Redirecting to WhatsApp */}
               <div className="space-y-4 pt-6 border-t border-gray-200">
-                <div className="flex flex-col sm:flex-row items-stretch gap-3">
-                  {/* Primary Luxury Button: Order via WhatsApp */}
+                <div>
                   <a
-                    href={getWhatsAppProductUrl(
-                      currentProduct,
-                      selectedOptions,
-                      formatPrice(currentProduct.price)
-                    )}
+                    href={getWhatsAppProductUrl(currentProduct, selectedOptions)}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20ba5a] text-white h-13 px-6 rounded-xl font-montserrat font-bold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shadow-md hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="w-full flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#218596] to-[#174c57] hover:from-[#1b7180] hover:to-[#133f48] text-white h-13 px-8 rounded-xl font-montserrat font-black text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shadow-md hover:shadow-xl transform hover:-translate-y-0.5"
                   >
-                    <MessageCircle className="w-5 h-5 fill-white shrink-0" />
-                    <span>ORDER VIA WHATSAPP</span>
-                  </a>
-
-                  {/* Secondary Inquire / Specs Button */}
-                  <a
-                    href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-                      `Hello Coin Surgical, I would like technical specifications and bulk pricing for: ${currentProduct.name} (Model: ${currentProduct.model})`
-                    )}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center justify-center gap-2 bg-white hover:bg-teal-50 text-[#174c57] border-2 border-[#174c57] h-13 px-5 rounded-xl font-montserrat font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-2xs"
-                  >
-                    <FileText className="w-4 h-4 text-[#174c57]" />
-                    <span>Inquire Custom Specs</span>
+                    <Zap className="w-4 h-4 text-teal-200 fill-teal-200" />
+                    <span>BUY NOW</span>
                   </a>
                 </div>
 
@@ -411,20 +374,20 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                       {p.name}
                     </button>
                   </h4>
-                  <div className="font-montserrat font-bold text-xs text-[#218596] mt-0.5">
-                    {formatPrice(p.price)}
+                  <div className="text-[10px] text-gray-500 font-mono mt-0.5">
+                    {p.model}
                   </div>
 
                   <div className="flex items-center gap-2 mt-1.5">
                     <a
-                      href={getWhatsAppProductUrl(p, undefined, formatPrice(p.price))}
+                      href={getWhatsAppProductUrl(p)}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-1 text-[10px] uppercase font-bold text-[#25D366] hover:text-[#20ba5a] transition-colors cursor-pointer"
-                      title="Order on WhatsApp"
+                      className="flex items-center gap-1 text-[10px] uppercase font-bold text-[#218596] hover:text-[#174c57] transition-colors cursor-pointer"
+                      title="Buy Now"
                     >
-                      <MessageCircle className="w-3 h-3 fill-current" />
-                      <span>WhatsApp</span>
+                      <Zap className="w-3 h-3 fill-[#218596]" />
+                      <span>Buy Now</span>
                     </a>
                   </div>
                 </div>

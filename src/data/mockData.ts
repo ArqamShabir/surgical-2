@@ -311,18 +311,13 @@ export const DISPLAY_PHONE = "+92 3494846107";
 
 export const getWhatsAppProductUrl = (
   product: Product,
-  selectedOptions?: Record<string, string>,
-  formattedPrice?: string
+  selectedOptions?: Record<string, string>
 ): string => {
   const lines: string[] = [
-    `Hello Coin Surgical, I would like to inquire/order:`,
+    `Hello Coin Surgical, I would like to order / inquire about:`,
     `*Product:* ${product.name}`,
     `*Model:* ${product.model}`,
   ];
-
-  if (formattedPrice) {
-    lines.push(`*Price:* ${formattedPrice}`);
-  }
 
   if (selectedOptions && Object.keys(selectedOptions).length > 0) {
     const opts = Object.entries(selectedOptions)

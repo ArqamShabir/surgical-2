@@ -1,11 +1,10 @@
 import React from "react";
-import { X, MessageCircle, ArrowRight } from "lucide-react";
+import { X, Zap, ArrowRight } from "lucide-react";
 import {
   fixAssetUrl,
   getWhatsAppProductUrl,
   type Product,
 } from "../../data/mockData";
-import { useCurrency } from "../../context/CurrencyContext";
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -18,8 +17,6 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
   onClose,
   onSelectProduct,
 }) => {
-  const { formatPrice } = useCurrency();
-
   if (!product) return null;
 
   return (
@@ -63,8 +60,8 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                 {product.name}
               </h2>
 
-              <div className="text-xl sm:text-2xl font-black font-montserrat text-[#218596] mb-3">
-                {formatPrice(product.price)}
+              <div className="text-xs font-semibold text-teal-700 uppercase tracking-wider mb-3">
+                Premium Surgical Grade Stainless Steel
               </div>
 
               <p className="text-xs text-gray-600 leading-relaxed mb-4 md:mb-6 line-clamp-4">
@@ -73,15 +70,15 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
             </div>
 
             <div className="space-y-2.5 pt-3 sm:pt-4 border-t border-gray-100">
-              {/* Order via WhatsApp Direct Button */}
+              {/* Buy Now (WhatsApp) */}
               <a
-                href={getWhatsAppProductUrl(product, undefined, formatPrice(product.price))}
+                href={getWhatsAppProductUrl(product)}
                 target="_blank"
                 rel="noreferrer"
-                className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:scale-102"
+                className="w-full bg-gradient-to-r from-[#218596] to-[#174c57] hover:from-[#174c57] hover:to-[#0f343c] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:scale-102"
               >
-                <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Order via WhatsApp</span>
+                <Zap className="w-4 h-4 text-teal-200 fill-teal-200" />
+                <span>Buy Now</span>
               </a>
 
               {/* View Full Product Details */}

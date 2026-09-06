@@ -1,14 +1,11 @@
 import { Phone, Mail } from "lucide-react";
 import { SIDE_PRODUCTS, FOOTER_DATA, fixAssetUrl } from "../../data/mockData";
-import { useCurrency } from "../../context/CurrencyContext";
 
 interface FooterProps {
   onNavigate?: (page: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const { formatPrice } = useCurrency();
-
   return (
     <footer className="bg-[#218596] text-white font-roboto">
       {/* 1. Most Viewed Mini Products Row */}
@@ -42,8 +39,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   <h4 className="text-xs font-semibold text-gray-800 line-clamp-1 group-hover:text-[#218596] transition-colors font-montserrat">
                     {prod.name}
                   </h4>
-                  <span className="text-xs font-bold font-montserrat text-[#218596] block mt-1">
-                    {formatPrice(prod.price)}
+                  <span className="text-[10px] font-mono text-[#218596] block mt-1">
+                    Premium Quality
                   </span>
                 </div>
               </button>

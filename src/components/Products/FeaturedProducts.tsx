@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Star, Eye, ArrowRight, MessageCircle } from "lucide-react";
+import { Star, Eye, ArrowRight, Zap } from "lucide-react";
 import {
   FEATURED_PRODUCTS,
   fixAssetUrl,
   getWhatsAppProductUrl,
   type Product,
 } from "../../data/mockData";
-import { useCurrency } from "../../context/CurrencyContext";
 
 interface FeaturedProductsProps {
   onQuickView: (product: Product) => void;
@@ -20,7 +19,6 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
   onSelectProduct,
   onNavigateCollection,
 }) => {
-  const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState<"featured" | "latest" | "bestsellers" | "specials">("featured");
 
   const products = FEATURED_PRODUCTS[activeTab] || [];
@@ -136,23 +134,10 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                       </button>
                     </h3>
 
-                    {/* Price and Rating */}
+                    {/* Rating */}
                     <div className="flex items-center justify-between mb-2">
-                      <div>
-                        {product.originalPrice ? (
-                          <div className="flex items-baseline gap-1.5">
-                            <span className="font-montserrat font-black text-lg text-[#218596]">
-                              {formatPrice(product.price)}
-                            </span>
-                            <span className="text-xs text-gray-400 line-through">
-                              {formatPrice(product.originalPrice)}
-                            </span>
-                          </div>
-                        ) : (
-                          <span className="font-montserrat font-black text-lg text-gray-900">
-                            {formatPrice(product.price)}
-                          </span>
-                        )}
+                      <div className="text-xs text-gray-500 font-medium font-montserrat">
+                        Premium Quality
                       </div>
 
                       {/* Stars */}
@@ -172,20 +157,16 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                   </div>
                 </div>
 
-                {/* Bottom Actions: Luxury WhatsApp Direct Order */}
+                {/* Bottom Actions: Buy Now (WhatsApp) */}
                 <div className="p-3 bg-gray-50/80 border-t border-gray-100">
                   <a
-                    href={getWhatsAppProductUrl(
-                      product,
-                      undefined,
-                      formatPrice(product.price)
-                    )}
+                    href={getWhatsAppProductUrl(product)}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-3 rounded-lg transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.2"
+                    className="w-full bg-gradient-to-r from-[#218596] to-[#174c57] hover:from-[#174c57] hover:to-[#0f343c] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-3 rounded-lg transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.5"
                   >
-                    <MessageCircle className="w-4 h-4 fill-white" />
-                    <span>Order on WhatsApp</span>
+                    <Zap className="w-3.5 h-3.5 text-teal-200 fill-teal-200" />
+                    <span>Buy Now</span>
                   </a>
                 </div>
               </div>

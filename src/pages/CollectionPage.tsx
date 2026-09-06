@@ -7,7 +7,7 @@ import {
   ChevronLeft,
   ChevronRight,
   SearchX,
-  MessageCircle,
+  Zap,
 } from "lucide-react";
 import {
   ALL_PRODUCTS,
@@ -15,7 +15,6 @@ import {
   getWhatsAppProductUrl,
   type Product,
 } from "../data/mockData";
-import { useCurrency } from "../context/CurrencyContext";
 
 interface CollectionPageProps {
   categoryName?: string;
@@ -35,7 +34,6 @@ export const CollectionPage: React.FC<CollectionPageProps> = ({
   onNavigateHome,
   onClearSearch,
 }) => {
-  const { formatPrice } = useCurrency();
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>("All");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("default");
@@ -507,33 +505,23 @@ export const CollectionPage: React.FC<CollectionPageProps> = ({
                           </h3>
 
                           <div className="flex items-center justify-between mb-2">
-                            <span className="font-montserrat font-black text-lg text-[#218596]">
-                              {formatPrice(product.price)}
-                            </span>
-
-                            {product.originalPrice && (
-                              <span className="text-xs text-gray-400 line-through font-montserrat">
-                                {formatPrice(product.originalPrice)}
-                              </span>
-                            )}
+                            <div className="text-xs text-gray-500 font-medium font-montserrat">
+                              Premium Quality
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      {/* Card Footer Actions: Luxury WhatsApp Direct Order */}
+                      {/* Card Footer Actions: Buy Now (WhatsApp) */}
                       <div className="p-3 bg-gray-50/80 border-t border-gray-100">
                         <a
-                          href={getWhatsAppProductUrl(
-                            product,
-                            undefined,
-                            formatPrice(product.price)
-                          )}
+                          href={getWhatsAppProductUrl(product)}
                           target="_blank"
                           rel="noreferrer"
-                          className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-3 rounded-lg transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.2"
+                          className="w-full bg-gradient-to-r from-[#218596] to-[#174c57] hover:from-[#174c57] hover:to-[#0f343c] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-3 rounded-lg transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.5"
                         >
-                          <MessageCircle className="w-4 h-4 fill-white" />
-                          <span>Order on WhatsApp</span>
+                          <Zap className="w-3.5 h-3.5 text-teal-200 fill-teal-200" />
+                          <span>Buy Now</span>
                         </a>
                       </div>
                     </div>
@@ -579,24 +567,17 @@ export const CollectionPage: React.FC<CollectionPageProps> = ({
                         <p className="text-xs text-gray-500 line-clamp-2 mb-3">
                           {product.description}
                         </p>
-                        <div className="font-montserrat font-black text-xl text-[#218596]">
-                          {formatPrice(product.price)}
-                        </div>
                       </div>
 
                       <div className="flex flex-col gap-2 shrink-0 w-full sm:w-48">
                         <a
-                          href={getWhatsAppProductUrl(
-                            product,
-                            undefined,
-                            formatPrice(product.price)
-                          )}
+                          href={getWhatsAppProductUrl(product)}
                           target="_blank"
                           rel="noreferrer"
-                          className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-4 rounded-lg transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                          className="w-full bg-gradient-to-r from-[#218596] to-[#174c57] hover:from-[#174c57] hover:to-[#0f343c] text-white font-montserrat font-bold text-xs uppercase tracking-wider py-2.5 px-4 rounded-lg transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.5"
                         >
-                          <MessageCircle className="w-4 h-4 fill-white" />
-                          <span>Order on WhatsApp</span>
+                          <Zap className="w-3.5 h-3.5 text-teal-200 fill-teal-200" />
+                          <span>Buy Now</span>
                         </a>
 
                         <button
