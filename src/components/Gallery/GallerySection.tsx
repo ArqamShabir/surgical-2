@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { X, ZoomIn } from "lucide-react";
-import { GALLERY_ITEMS, type GalleryItem } from "../../data/mockData";
+import { GALLERY_ITEMS, fixAssetUrl, type GalleryItem } from "../../data/mockData";
 
 export const GallerySection: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
@@ -33,7 +33,7 @@ export const GallerySection: React.FC = () => {
                 className="max-h-full max-w-full object-contain group-hover:scale-108 transition-transform duration-300"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
-                    "/image/cache/catalog/n%20final%20png-5027x2270.png";
+                    fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png");
                 }}
               />
               <div className="absolute inset-0 bg-[#218596]/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-xl">

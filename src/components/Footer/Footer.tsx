@@ -1,6 +1,5 @@
-import React from "react";
 import { Phone, Mail } from "lucide-react";
-import { SIDE_PRODUCTS, FOOTER_DATA } from "../../data/mockData";
+import { SIDE_PRODUCTS, FOOTER_DATA, fixAssetUrl } from "../../data/mockData";
 import { useCurrency } from "../../context/CurrencyContext";
 
 interface FooterProps {
@@ -35,7 +34,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                     className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
-                        "/image/cache/catalog/n%20final%20png-5027x2270.png";
+                        fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png");
                     }}
                   />
                 </div>

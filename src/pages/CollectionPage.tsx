@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { LayoutGrid, List, Home, ShoppingCart, Eye, Check, ChevronLeft, ChevronRight, SearchX, Zap } from "lucide-react";
-import { ALL_PRODUCTS, type Product } from "../data/mockData";
+import { ALL_PRODUCTS, fixAssetUrl, type Product } from "../data/mockData";
 import { useCurrency } from "../context/CurrencyContext";
 
 interface CollectionPageProps {
@@ -148,32 +148,32 @@ export const CollectionPage: React.FC<CollectionPageProps> = ({
   const refineCategories = [
     {
       name: "Specialty Instruments",
-      image: "/image/cache/catalog/14-120x120.jpg",
+      image: fixAssetUrl("/image/cache/catalog/14-120x120.jpg"),
       count: "125 items",
     },
     {
       name: "Standard Instruments",
-      image: "/image/cache/catalog/15-120x120.jpg",
+      image: fixAssetUrl("/image/cache/catalog/15-120x120.jpg"),
       count: "94 items",
     },
     {
       name: "Liposuction Cannulas",
-      image: "/image/cache/catalog/lipo-2-120x120.jpg",
+      image: fixAssetUrl("/image/cache/catalog/lipo-2-120x120.jpg"),
       count: "68 items",
     },
     {
       name: "Suggested Instruments Sets",
-      image: "/image/cache/catalog/1-120x120.jpg",
+      image: fixAssetUrl("/image/cache/catalog/1-120x120.jpg"),
       count: "48 items",
     },
     {
       name: "Electro Surgical",
-      image: "/image/cache/catalog/2-120x120.jpg",
+      image: fixAssetUrl("/image/cache/catalog/2-120x120.jpg"),
       count: "46 items",
     },
     {
       name: "General Surgery",
-      image: "/image/cache/catalog/3-120x120.jpg",
+      image: fixAssetUrl("/image/cache/catalog/3-120x120.jpg"),
       count: "80 items",
     },
   ];
@@ -255,7 +255,7 @@ export const CollectionPage: React.FC<CollectionPageProps> = ({
                       className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
-                          "/image/cache/catalog/N-Products/suggested-sets/set-05-breast-augmentation-instruments-set-70x70.jpg";
+                          fixAssetUrl("/image/cache/catalog/N-Products/suggested-sets/set-05-breast-augmentation-instruments-set-70x70.jpg");
                       }}
                     />
                   </div>
@@ -481,7 +481,7 @@ export const CollectionPage: React.FC<CollectionPageProps> = ({
                             className="max-h-full max-w-full object-contain group-hover:scale-103 transition-transform duration-300"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src =
-                                "/image/cache/catalog/n%20final%20png-5027x2270.png";
+                                fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png");
                             }}
                           />
 
@@ -610,7 +610,7 @@ export const CollectionPage: React.FC<CollectionPageProps> = ({
                           className="max-h-full max-w-full object-contain"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src =
-                              "/image/cache/catalog/n%20final%20png-5027x2270.png";
+                              fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png");
                           }}
                         />
                       </div>

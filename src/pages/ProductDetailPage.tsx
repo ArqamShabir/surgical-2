@@ -13,7 +13,7 @@ import {
   Truck,
   RotateCcw,
 } from "lucide-react";
-import { ALL_PRODUCTS, type Product } from "../data/mockData";
+import { ALL_PRODUCTS, fixAssetUrl, type Product } from "../data/mockData";
 import { useCurrency } from "../context/CurrencyContext";
 
 interface ProductDetailPageProps {
@@ -138,7 +138,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     isHoverZooming ? "opacity-0" : "opacity-100"
                   }`}
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/image/cache/catalog/n%20final%20png-5027x2270.png";
+                    (e.target as HTMLImageElement).src = fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png");
                   }}
                 />
 
@@ -410,7 +410,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     alt={p.name}
                     className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/image/cache/catalog/n%20final%20png-5027x2270.png";
+                      (e.target as HTMLImageElement).src = fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png");
                     }}
                   />
                 </div>

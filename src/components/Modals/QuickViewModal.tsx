@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { X, ShoppingCart, Check, Zap } from "lucide-react";
-import type { Product } from "../../data/mockData";
+import { fixAssetUrl, type Product } from "../../data/mockData";
 import { useCurrency } from "../../context/CurrencyContext";
 
 interface QuickViewModalProps {
@@ -61,7 +61,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               className="max-h-full max-w-full object-contain"
               onError={(e) => {
                 (e.target as HTMLImageElement).src =
-                  "/image/cache/catalog/n%20final%20png-5027x2270.png";
+                  fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png");
               }}
             />
           </div>

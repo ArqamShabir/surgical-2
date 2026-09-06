@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Search, ShoppingBag, ChevronDown } from "lucide-react";
-import { NAV_CATEGORIES } from "../../data/mockData";
+import { NAV_CATEGORIES, fixAssetUrl } from "../../data/mockData";
 import { useCurrency } from "../../context/CurrencyContext";
 
 interface MidBarProps {
@@ -37,13 +37,13 @@ export const MidBar: React.FC<MidBarProps> = ({
             title="Coin Surgical"
           >
             <img
-              src="/image/cache/catalog/n%20final%20png-5027x2270.png"
+              src={fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png")}
               alt="Coin Surgical"
               className="h-10 sm:h-12 w-auto max-w-[200px] sm:max-w-[240px] object-contain"
               onError={(e) => {
                 // Fallback to text + icon
                 (e.target as HTMLImageElement).src =
-                  "/image/cache/catalog/n%20final%20png-600x315w.png";
+                  fixAssetUrl("/image/cache/catalog/n%20final%20png-600x315w.png");
               }}
             />
           </button>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Star, ShoppingCart, Eye, Check, ArrowRight, Zap } from "lucide-react";
-import { FEATURED_PRODUCTS, type Product } from "../../data/mockData";
+import { FEATURED_PRODUCTS, fixAssetUrl, type Product } from "../../data/mockData";
 import { useCurrency } from "../../context/CurrencyContext";
 
 interface FeaturedProductsProps {
@@ -118,7 +118,7 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                       className="max-h-full max-w-full object-contain group-hover:scale-103 transition-transform duration-300"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
-                          "/image/cache/catalog/n%20final%20png-5027x2270.png";
+                          fixAssetUrl("/image/cache/catalog/n%20final%20png-5027x2270.png");
                       }}
                     />
 

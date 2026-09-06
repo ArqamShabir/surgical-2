@@ -64,8 +64,20 @@ export interface SideProduct {
   image: string;
 }
 
+const BASE_URL = import.meta.env.BASE_URL || "/";
+const prefix = BASE_URL.endsWith("/") ? BASE_URL : `${BASE_URL}/`;
+
+export const fixAssetUrl = (url: string): string => {
+  if (!url) return url;
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) return url;
+  const clean = url.startsWith("/") ? url.slice(1) : url;
+  return `${prefix}${clean}`;
+};
+
 export const ALL_PRODUCTS: Product[] = (catalogData.products as Product[]).map((p, idx) => ({
   ...p,
+  image: fixAssetUrl(p.image),
+  images: p.images ? p.images.map(fixAssetUrl) : [fixAssetUrl(p.image)],
   rating: p.rating || 5,
   badge: idx % 7 === 0 ? "Hot" : idx % 5 === 0 ? "Sale" : idx % 3 === 0 ? "New" : undefined,
 }));
@@ -101,7 +113,7 @@ export const HERO_SLIDES = [
       "Explore our comprehensive range of handcrafted surgical instruments engineered for exceptional precision, durability, and absolute reliability.",
     buttonText: "SHOP NOW",
     link: "/collections/plastic-surgery",
-    image: "/image/cache/catalog/banners/2-960x450.jpg",
+    image: fixAssetUrl("/image/cache/catalog/banners/2-960x450.jpg"),
   },
   {
     id: "2",
@@ -112,7 +124,7 @@ export const HERO_SLIDES = [
       "Tools crafted under rigorous international medical standards for discerning surgical professionals worldwide.",
     buttonText: "EXPLORE NOW",
     link: "/collections/suggested-instruments-sets",
-    image: "/image/cache/catalog/banners/2-960x450.jpg",
+    image: fixAssetUrl("/image/cache/catalog/banners/2-960x450.jpg"),
   },
 ];
 
@@ -124,7 +136,7 @@ export const SIDE_BANNERS = [
     subtitle: "and Accessories",
     buttonText: "Explore Now",
     link: "/collections/liposuction",
-    image: "/image/cache/catalog/banners/b1-320x210.jpg",
+    image: fixAssetUrl("/image/cache/catalog/banners/b1-320x210.jpg"),
   },
   {
     id: "2",
@@ -133,7 +145,7 @@ export const SIDE_BANNERS = [
     subtitle: "for Plastic Surgery",
     buttonText: "Shop Sets",
     link: "/collections/plastic-surgery",
-    image: "/image/cache/catalog/banners/b2-320x210.jpg",
+    image: fixAssetUrl("/image/cache/catalog/banners/b2-320x210.jpg"),
   },
 ];
 
@@ -252,42 +264,42 @@ export const CATEGORIES_DATA: Category[] = [
     id: "cat-1",
     name: "Plastic Surgery",
     description: "Wide range of instruments from skin grafting to micro surgery.",
-    image: "/image/cache/catalog/14-120x120.jpg",
+    image: fixAssetUrl("/image/cache/catalog/14-120x120.jpg"),
     link: "/collections/plastic-surgery",
   },
   {
     id: "cat-2",
     name: "Liposuction Cannulas",
     description: "Precision engineered suction and infiltration cannulas with custom fittings.",
-    image: "/image/cache/catalog/lipo-2-120x120.jpg",
+    image: fixAssetUrl("/image/cache/catalog/lipo-2-120x120.jpg"),
     link: "/collections/liposuction",
   },
   {
     id: "cat-3",
     name: "Standard Instruments",
     description: "Forceps, scissors, needle holders and retractors of highest grade.",
-    image: "/image/cache/catalog/15-120x120.jpg",
+    image: fixAssetUrl("/image/cache/catalog/15-120x120.jpg"),
     link: "/collections/standard-instruments",
   },
   {
     id: "cat-4",
     name: "Suggested Instruments Sets",
     description: "Complete procedure kits for breast augmentation, rhinoplasty, and cleft palate.",
-    image: "/image/cache/catalog/1-120x120.jpg",
+    image: fixAssetUrl("/image/cache/catalog/1-120x120.jpg"),
     link: "/collections/suggested-instruments-sets",
   },
   {
     id: "cat-5",
     name: "Electro Surgical",
     description: "Bipolar and monopolar forceps, electrodes, cables and generators.",
-    image: "/image/cache/catalog/2-120x120.jpg",
+    image: fixAssetUrl("/image/cache/catalog/2-120x120.jpg"),
     link: "/collections/electro-surgical-instruments",
   },
   {
     id: "cat-6",
     name: "General Surgery",
     description: "Abdominal retractors, intestinal clamps, bone cutting shears and more.",
-    image: "/image/cache/catalog/3-120x120.jpg",
+    image: fixAssetUrl("/image/cache/catalog/3-120x120.jpg"),
     link: "/collections/general-surgery-instruments",
   },
 ];
@@ -329,7 +341,7 @@ export const BLOG_POSTS = {
       author: "irfan",
       commentsCount: 31,
       viewsCount: 3821,
-      image: "/image/cache/catalog/blog-posts/microaire-fitting-cannulas-pal-cannulas-1060x400.jpg",
+      image: fixAssetUrl("/image/cache/catalog/blog-posts/microaire-fitting-cannulas-pal-cannulas-1060x400.jpg"),
     },
     {
       id: "post-2",
@@ -340,7 +352,7 @@ export const BLOG_POSTS = {
       author: "irfan",
       commentsCount: 323,
       viewsCount: 5003,
-      image: "/image/cache/catalog/blog-posts/breast-surgery-instruments-1060x400.jpg",
+      image: fixAssetUrl("/image/cache/catalog/blog-posts/breast-surgery-instruments-1060x400.jpg"),
     },
   ],
   mostRead: [
@@ -353,7 +365,7 @@ export const BLOG_POSTS = {
       author: "irfan",
       commentsCount: 323,
       viewsCount: 5003,
-      image: "/image/cache/catalog/blog-posts/breast-surgery-instruments-1060x400.jpg",
+      image: fixAssetUrl("/image/cache/catalog/blog-posts/breast-surgery-instruments-1060x400.jpg"),
     },
     {
       id: "post-1",
@@ -364,7 +376,7 @@ export const BLOG_POSTS = {
       author: "irfan",
       commentsCount: 31,
       viewsCount: 3821,
-      image: "/image/cache/catalog/blog-posts/microaire-fitting-cannulas-pal-cannulas-1060x400.jpg",
+      image: fixAssetUrl("/image/cache/catalog/blog-posts/microaire-fitting-cannulas-pal-cannulas-1060x400.jpg"),
     },
   ],
 };
@@ -394,46 +406,46 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: "g-1",
     title: "Deaver Retractor Insulated",
-    image: "/image/cache/catalog/products/05 - BREAST RETRACTORS/05-BR-32-550x550w.jpg",
+    image: fixAssetUrl("/image/cache/catalog/products/05 - BREAST RETRACTORS/05-BR-32-550x550w.jpg"),
   },
   {
     id: "g-2",
     title: "Fiber Optic Breast Retractor",
-    image: "/image/cache/catalog/products/05 - BREAST RETRACTORS/01 Double Handle Breast Retractor with Fiber Optic and Suction Tube-550x550h.jpg",
+    image: fixAssetUrl("/image/cache/catalog/products/05 - BREAST RETRACTORS/01 Double Handle Breast Retractor with Fiber Optic and Suction Tube-550x550h.jpg"),
   },
   {
     id: "g-3",
     title: "Nasal Speculums",
-    image: "/image/cache/catalog/products/02 - AURICULAR PLASTIC INSTRUMENTS/02-API-05-550x550w.jpg",
+    image: fixAssetUrl("/image/cache/catalog/products/02 - AURICULAR PLASTIC INSTRUMENTS/02-API-05-550x550w.jpg"),
   },
   {
     id: "g-4",
     title: "Electro Surgical Instruments",
-    image: "/image/cache/catalog/products/05 - BREAST RETRACTORS/05-BR-03-550x550h.jpg",
+    image: fixAssetUrl("/image/cache/catalog/products/05 - BREAST RETRACTORS/05-BR-03-550x550h.jpg"),
   },
   {
     id: "g-5",
     title: "Microaire Fitting Cannulas",
-    image: "/image/cache/catalog/N-Products/liposuction/6-microaire-fitting/1-550x550.jpg",
+    image: fixAssetUrl("/image/cache/catalog/N-Products/liposuction/6-microaire-fitting/1-550x550.jpg"),
   },
   {
     id: "g-6",
     title: "Breast Elevator",
-    image: "/image/cache/catalog/products/05 - BREAST RETRACTORS/05-BR-40-550x550w.jpg",
+    image: fixAssetUrl("/image/cache/catalog/products/05 - BREAST RETRACTORS/05-BR-40-550x550w.jpg"),
   },
   {
     id: "g-7",
     title: "Bone & Cartilage Rasps",
-    image: "/image/cache/catalog/products/06 - CARTILAGE AND BONE INSTRUMENTS/06-CBI-04-550x550h.jpg",
+    image: fixAssetUrl("/image/cache/catalog/products/06 - CARTILAGE AND BONE INSTRUMENTS/06-CBI-04-550x550h.jpg"),
   },
   {
     id: "g-8",
     title: "Grossman Areola Marker",
-    image: "/image/cache/catalog/products/01 - Areola Marker/01-AR-16-550x550w.jpg",
+    image: fixAssetUrl("/image/cache/catalog/products/01 - Areola Marker/01-AR-16-550x550w.jpg"),
   },
   {
     id: "g-9",
     title: "Syringe Holding Device",
-    image: "/image/cache/catalog/products/01 - Areola Marker/01-AR-38-550x550w.jpg",
+    image: fixAssetUrl("/image/cache/catalog/products/01 - Areola Marker/01-AR-38-550x550w.jpg"),
   },
 ];

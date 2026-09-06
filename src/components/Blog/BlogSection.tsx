@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { User, MessageCircle, Eye } from "lucide-react";
-import { BLOG_POSTS } from "../../data/mockData";
+import { BLOG_POSTS, fixAssetUrl } from "../../data/mockData";
 
 export const BlogSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"latest" | "mostRead">("latest");
@@ -64,7 +64,7 @@ export const BlogSection: React.FC = () => {
                     className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-500"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
-                        "/image/cache/catalog/banners/2-960x450.jpg";
+                        fixAssetUrl("/image/cache/catalog/banners/2-960x450.jpg");
                     }}
                   />
                   {/* Date Badge */}

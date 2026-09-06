@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
-import { HERO_SLIDES, SIDE_BANNERS } from "../../data/mockData";
+import { HERO_SLIDES, SIDE_BANNERS, fixAssetUrl } from "../../data/mockData";
 
 export const HeroBanner: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -27,7 +27,7 @@ export const HeroBanner: React.FC = () => {
               className="w-full h-full object-cover object-right md:object-center transition-transform duration-700 ease-out group-hover:scale-102"
               onError={(e) => {
                 (e.target as HTMLImageElement).src =
-                  "/image/cache/catalog/banners/2-960x450.jpg";
+                  fixAssetUrl("/image/cache/catalog/banners/2-960x450.jpg");
               }}
             />
             {/* Subtle Gradient overlay to ensure text contrast on left */}
@@ -85,8 +85,8 @@ export const HeroBanner: React.FC = () => {
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
                     banner.id === "1"
-                      ? "/image/cache/catalog/banners/b1-320x210.jpg"
-                      : "/image/cache/catalog/banners/b2-320x210.jpg";
+                      ? fixAssetUrl("/image/cache/catalog/banners/b1-320x210.jpg")
+                      : fixAssetUrl("/image/cache/catalog/banners/b2-320x210.jpg");
                 }}
               />
             </a>

@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronRight, Download, FileText } from "lucide-react";
+import { fixAssetUrl } from "../data/mockData";
 
 interface PdfCataloguesPageProps {
   onNavigateHome: () => void;
@@ -21,36 +22,36 @@ export const PdfCataloguesPage: React.FC<PdfCataloguesPageProps> = ({ onNavigate
       id: "cat-1",
       title: "DOWNLOAD PLASTIC SURGERY",
       subtitle: "PDF CATALOG",
-      pdfFile: "/catalogues/plastic-surgery-catalog.pdf",
+      pdfFile: fixAssetUrl("/catalogues/plastic-surgery-catalog.pdf"),
       fileName: "plastic-surgery-catalog.pdf",
-      image: "/image/cache/catalog/banners/2-960x450.jpg",
+      image: fixAssetUrl("/image/cache/catalog/banners/2-960x450.jpg"),
       accentColor: "#218596",
     },
     {
       id: "cat-2",
       title: "DOWNLOAD LIPOSUCTION",
       subtitle: "PDF CATALOG",
-      pdfFile: "/catalogues/liposuction-catalog.pdf",
+      pdfFile: fixAssetUrl("/catalogues/liposuction-catalog.pdf"),
       fileName: "liposuction-catalog.pdf",
-      image: "/image/cache/catalog/banners/b1-320x210.jpg",
+      image: fixAssetUrl("/image/cache/catalog/banners/b1-320x210.jpg"),
       accentColor: "#174c57",
     },
     {
       id: "cat-3",
       title: "DOWNLOAD SPECIALTY SURGICAL SETS",
       subtitle: "PDF CATALOG",
-      pdfFile: "/catalogues/specialty-instruments-catalog.pdf",
+      pdfFile: fixAssetUrl("/catalogues/specialty-instruments-catalog.pdf"),
       fileName: "specialty-instruments-catalog.pdf",
-      image: "/image/cache/catalog/banners/b2-320x210.jpg",
+      image: fixAssetUrl("/image/cache/catalog/banners/b2-320x210.jpg"),
       accentColor: "#9333ea",
     },
     {
       id: "cat-4",
       title: "DOWNLOAD OPHTHALMIC & GENERAL",
       subtitle: "PDF CATALOG",
-      pdfFile: "/catalogues/ophthalmic-catalog.pdf",
+      pdfFile: fixAssetUrl("/catalogues/ophthalmic-catalog.pdf"),
       fileName: "ophthalmic-catalog.pdf",
-      image: "/image/cache/catalog/14-120x120.jpg",
+      image: fixAssetUrl("/image/cache/catalog/14-120x120.jpg"),
       accentColor: "#0284c7",
     },
   ];
@@ -102,7 +103,7 @@ export const PdfCataloguesPage: React.FC<PdfCataloguesPageProps> = ({ onNavigate
                     alt={cat.title}
                     className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "/image/cache/catalog/banners/2-960x450.jpg";
+                      (e.target as HTMLImageElement).src = fixAssetUrl("/image/cache/catalog/banners/2-960x450.jpg");
                     }}
                   />
                   <div className="absolute inset-0 bg-[#218596]/10 group-hover:bg-transparent transition-colors" />
